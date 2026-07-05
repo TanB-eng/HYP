@@ -170,6 +170,9 @@ test('provides the required palm view landmarks', () => {
   assert.match(html, /id="palm-upload-zone"/);
   assert.match(html, /id="palm-canvas"/);
   assert.match(html, /仅支持右手掌/);
+  assert.match(html, /API 获取教程/);
+  assert.match(html, /https:\/\/aistudio\.google\.com\//);
+  assert.match(html, /不要发给陌生人/);
   assert.match(html, /照片将直接发送至 Google Gemini API/);
   assert.match(html, /本功能仅供娱乐参考，不构成任何专业建议/);
 });
@@ -182,7 +185,7 @@ test('integrates the palm stylesheet, scripts, navigation and route', () => {
   assert.equal(fs.existsSync(palmCssPath), true);
   assert.match(indexHtml, /href="#\/palm"/);
   assert.match(indexHtml, /src="js\/palm-data\.js"/);
-  assert.match(indexHtml, /src="js\/palm\.js"/);
+  assert.match(indexHtml, /src="js\/palm\.js(?:\?[^"]+)?"/);
   assert.match(appJs, /Router\.register\('#\/palm'/);
   assert.match(appJs, /PalmView\.destroy/);
 });

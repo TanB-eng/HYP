@@ -120,6 +120,112 @@
   font-size: 0.86rem;
 }
 
+.palm-api-guide {
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 215, 0, 0.045), transparent 42%),
+    var(--palm-glass);
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.palm-api-guide summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  cursor: pointer;
+  list-style: none;
+}
+
+.palm-api-guide summary::-webkit-details-marker {
+  display: none;
+}
+
+.palm-api-guide summary span {
+  color: var(--accent-gold);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.palm-api-guide summary small {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.palm-api-guide[open] summary {
+  border-bottom: 1px solid var(--palm-line);
+}
+
+.palm-api-guide-body {
+  padding: var(--space-lg);
+}
+
+.palm-api-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-sm);
+  counter-reset: api-step;
+}
+
+.palm-api-steps li {
+  position: relative;
+  min-height: 150px;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  overflow: hidden;
+  background: rgba(5, 7, 26, 0.58);
+  border: 1px solid var(--palm-line);
+  border-radius: var(--radius-md);
+  counter-increment: api-step;
+}
+
+.palm-api-steps li::before {
+  content: counter(api-step, decimal-leading-zero);
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: rgba(255, 215, 0, 0.18);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.palm-api-steps strong,
+.palm-api-steps span {
+  position: relative;
+  display: block;
+}
+
+.palm-api-steps strong {
+  margin-bottom: var(--space-xs);
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+}
+
+.palm-api-steps span {
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.palm-api-steps a {
+  color: var(--palm-cyan);
+  word-break: break-all;
+}
+
+.palm-api-warning {
+  margin: var(--space-md) 0 0;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--accent-gold);
+  background: rgba(255, 215, 0, 0.07);
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
 .palm-live-dot {
   width: 8px;
   height: 8px;
@@ -999,6 +1105,19 @@
 
   .palm-ai-actions .palm-btn {
     flex: 1;
+  }
+
+  .palm-api-guide summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .palm-api-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .palm-api-steps li {
+    min-height: 0;
   }
 
   .palm-upload-zone {
