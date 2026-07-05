@@ -64,6 +64,52 @@ window.FavoritesView = (function () {
     return ELEMENT_LABELS[el] || el;
   }
 
+  function getExportSignLabel(sign, id) {
+    if (!sign) return id || '未知星座';
+    return sign.name_cn + ' ' + sign.name_en;
+  }
+
+  function formatNotesText(favorites, notes) {
+    var favList = Array.isArray(favorites) ? favorites.slice() : [];
+    var noteMap = notes || {};
+    var noteIds = Object.keys(noteMap).filter(function(id) {
+      return favList.indexOf(id) === -1;
+    });
+    var ids = favList.concat(noteIds);
+    var lines = [
+      'HYP星座研究 - 收藏笔记导出',
+      '导出时间：' + new Date().toISOString(),
+      '========================================',
+      ''
+    ];
+
+    if (!ids.length) {
+      lines.push('暂无收藏或笔记。');
+      return lines.join('\n');
+    }
+
+    ids.forEach(function(id, index) {
+      var sign = window.ZodiacData && window.ZodiacData.getById
+        ? window.ZodiacData.getById(id)
+        : null;
+      var note = noteMap[id] && String(noteMap[id]).trim()
+        ? String(noteMap[id]).trim()
+        : '暂无笔记';
+
+      lines.push((index + 1) + '. ' + getExportSignLabel(sign, id));
+      if (sign) {
+        lines.push('日期：' + sign.date_range);
+        lines.push('元素：' + elementLabel(sign.element));
+      }
+      lines.push('笔记：');
+      lines.push(note);
+      lines.push('----------------------------------------');
+      lines.push('');
+    });
+
+    return lines.join('\n');
+  }
+
   /**
    * 显示短暂的 Toast 提示 (复用 components.css 中的 .toast 样式)
    * @param {string} message
@@ -275,22 +321,24 @@ window.FavoritesView = (function () {
 
   /**
    * 绑定导出笔记按钮
-   * 将全部笔记数据导出为 JSON 文件并触发下载
+   * 将全部收藏与笔记导出为普通文本文件并触发下载
    */
   function bindExportButton() {
     var btn = document.getElementById('export-btn');
     if (!btn) return;
 
     btn.addEventListener('click', function () {
-      // 获取 JSON 字符串
-      var jsonStr = window.Storage.Notes.exportJSON();
+      var text = formatNotesText(
+        window.Storage.Favorites.getAll(),
+        window.Storage.Notes.getAll()
+      );
 
       // 创建 Blob 与临时下载链接
-      var blob = new Blob([jsonStr], { type: 'application/json' });
+      var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url;
-      a.download = 'zodiac-notes.json';
+      a.download = 'zodiac-notes.txt';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -335,6 +383,7 @@ window.FavoritesView = (function () {
 
   // ============ 导出公共 API ============
   return {
-    render: render
+    render: render,
+    formatNotesText: formatNotesText
   };
 })();
