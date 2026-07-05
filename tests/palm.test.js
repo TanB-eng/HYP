@@ -170,6 +170,8 @@ test('provides the required palm view landmarks', () => {
   assert.match(html, /id="palm-upload-zone"/);
   assert.match(html, /id="palm-canvas"/);
   assert.match(html, /仅支持右手掌/);
+  assert.match(html, /拍照前提醒/);
+  assert.match(html, /请上传右手手掌照片/);
   assert.match(html, /API 获取教程/);
   assert.match(html, /https:\/\/aistudio\.google\.com\//);
   assert.match(html, /不要发给陌生人/);

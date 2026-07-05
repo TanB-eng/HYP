@@ -315,6 +315,8 @@
       '    <p class="view-subtitle">上传右手掌照片，在四条掌纹中阅读属于你的趣味星图</p>',
       '  </header>',
       '',
+      '  <p class="palm-hand-reminder"><strong>拍照前提醒：</strong>请上传右手手掌照片，掌心朝向镜头，手指自然朝上。</p>',
+      '',
       '  <div class="palm-topbar">',
       '    <div class="palm-mode-copy"><span class="palm-live-dot"></span>离线趣味模式随时可用</div>',
       '    <div class="palm-ai-actions">',
