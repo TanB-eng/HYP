@@ -386,6 +386,65 @@
   background: rgba(100, 120, 200, 0.15);
 }
 
+.gender-traits {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.gender-trait-card {
+  position: relative;
+  padding: var(--space-lg);
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 215, 0, 0.055), transparent 48%),
+    rgba(10, 10, 42, 0.62);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.gender-trait-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--accent-gold);
+  opacity: 0.9;
+}
+
+.gender-trait-female::before {
+  background: var(--accent-cyan);
+}
+
+.gender-trait-kicker {
+  display: block;
+  margin-bottom: var(--space-sm);
+  color: var(--accent-gold);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.gender-trait-female .gender-trait-kicker {
+  color: var(--accent-cyan);
+}
+
+.gender-trait-card p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.gender-trait-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
 /* 详情区段正文内容 */
 .section-content {
   color: var(--text-secondary);
@@ -983,6 +1042,10 @@
 
   .detail-badges {
     justify-content: center;
+  }
+
+  .gender-traits {
+    grid-template-columns: 1fr;
   }
 
   /* 收藏项头部：纵向堆叠 */

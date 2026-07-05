@@ -79,6 +79,25 @@ window.BrowseView = (function () {
     return MODALITY_LABELS[mod] || mod;
   }
 
+  function renderGenderPersonality(sign) {
+    var gender = sign.gender_personality;
+    if (!gender || (!gender.male && !gender.female)) return '';
+
+    return (
+      '<div class="gender-traits">' +
+        '<article class="gender-trait-card gender-trait-male">' +
+          '<span class="gender-trait-kicker">男生常见表现</span>' +
+          '<p>' + escapeHtml(gender.male || '暂无补充') + '</p>' +
+        '</article>' +
+        '<article class="gender-trait-card gender-trait-female">' +
+          '<span class="gender-trait-kicker">女生常见表现</span>' +
+          '<p>' + escapeHtml(gender.female || '暂无补充') + '</p>' +
+        '</article>' +
+        '<p class="gender-trait-note">以上为星座娱乐向解读，个体差异会受到成长经历、环境和个人选择影响。</p>' +
+      '</div>'
+    );
+  }
+
   /**
    * 显示短暂的 Toast 提示 (复用 components.css 中的 .toast 样式)
    * @param {string} message
@@ -332,6 +351,7 @@ window.BrowseView = (function () {
               '<h3>性格特点</h3>' +
               '<div class="traits-list">' + traitsHtml + '</div>' +
               '<p class="section-content">' + escapeHtml(sign.personality) + '</p>' +
+              renderGenderPersonality(sign) +
             '</div>' +
 
             /* 神话传说 */
@@ -473,6 +493,7 @@ window.BrowseView = (function () {
   return {
     render: render,
     renderDetail: renderDetail,
-    toggleFavorite: toggleFavorite
+    toggleFavorite: toggleFavorite,
+    renderGenderPersonality: renderGenderPersonality
   };
 })();
