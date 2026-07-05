@@ -914,8 +914,8 @@
   }
 }
 
-/* ---- 移动端（< 768px） ---- */
-@media (max-width: 768px) {
+/* ---- 移动端与窄屏平板：保留清晰的登录入口 ---- */
+@media (max-width: 900px) {
   .logo-text {
     display: none;
   }
@@ -938,6 +938,10 @@
   .auth-nav-group {
     gap: var(--space-xs);
   }
+}
+
+/* ---- 移动端（< 768px） ---- */
+@media (max-width: 768px) {
 
   .auth-modal-card {
     padding: var(--space-lg);

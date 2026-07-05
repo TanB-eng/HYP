@@ -42,7 +42,7 @@ test('integrates Supabase bootstrap and auth entry into the static app shell', (
   assert.match(indexHtml, /id="auth-slot"/);
   assert.match(indexHtml, /@supabase\/supabase-js@2/);
   assert.match(indexHtml, /src="js\/supabase-client\.js"/);
-  assert.match(indexHtml, /src="js\/auth\.js"/);
+  assert.match(indexHtml, /src="js\/auth\.js(?:\?[^"]+)?"/);
   assert.match(appJs, /Storage\.init\(\)/);
   assert.match(appJs, /AuthUI\.init\(\)/);
   assert.match(storageJs, /window\.SupabaseClient/);
