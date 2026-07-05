@@ -133,14 +133,14 @@
       buttonHtml =
         '<button class="auth-nav-btn auth-nav-btn-muted" type="button" id="auth-open-btn">' +
           '<span class="auth-nav-icon">◎</span>' +
-          '<span class="auth-nav-label">待配置</span>' +
+          '<span class="auth-nav-label" data-mobile-label="配置">待配置</span>' +
         '</button>';
     } else if (user) {
       buttonHtml =
         '<div class="auth-nav-group">' +
           '<button class="auth-nav-btn" type="button" id="auth-open-btn">' +
             '<span class="auth-nav-icon">◎</span>' +
-            '<span class="auth-nav-label">' + escapeHtml(formatUserLabel(user.email)) + '</span>' +
+            '<span class="auth-nav-label" data-mobile-label="账户">' + escapeHtml(formatUserLabel(user.email)) + '</span>' +
           '</button>' +
           '<button class="auth-nav-btn auth-nav-btn-secondary" type="button" id="auth-logout-btn">退出</button>' +
         '</div>';
@@ -148,7 +148,7 @@
       buttonHtml =
         '<button class="auth-nav-btn" type="button" id="auth-open-btn">' +
           '<span class="auth-nav-icon">◎</span>' +
-          '<span class="auth-nav-label">登录 / 注册</span>' +
+          '<span class="auth-nav-label" data-mobile-label="登录">登录 / 注册</span>' +
         '</button>';
     }
 
