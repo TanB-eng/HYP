@@ -167,6 +167,112 @@
   margin-bottom: var(--space-lg);
 }
 
+.daily-horoscope-card {
+  width: 100%;
+  margin: 0 0 var(--space-lg);
+  padding: var(--space-lg);
+  background:
+    linear-gradient(135deg, rgba(255, 215, 0, 0.13), transparent 35%),
+    linear-gradient(225deg, rgba(0, 229, 255, 0.1), transparent 40%),
+    rgba(10, 10, 42, 0.78);
+  border: 1px solid rgba(255, 215, 0, 0.22);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.daily-horoscope-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.daily-horoscope-kicker {
+  margin: 0 0 var(--space-xs);
+  color: var(--accent-cyan);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.daily-horoscope-head h2 {
+  margin: 0;
+  color: var(--accent-gold);
+  font-size: 1.3rem;
+}
+
+.daily-sign-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.daily-sign-picker select {
+  min-width: 104px;
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--text-primary);
+  background: rgba(5, 5, 17, 0.65);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.daily-theme-row,
+.daily-lucky-row,
+.daily-score-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.daily-date,
+.daily-theme,
+.daily-score-strip span,
+.daily-lucky-row span {
+  padding: var(--space-xs) var(--space-sm);
+  background: rgba(100, 120, 200, 0.12);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+}
+
+.daily-theme {
+  color: var(--accent-gold);
+  border-color: rgba(255, 215, 0, 0.28);
+}
+
+.daily-horoscope-text {
+  margin: var(--space-md) 0;
+  color: var(--text-primary);
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.daily-insights {
+  margin: 0 0 var(--space-md);
+  padding-left: 1.2rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.daily-score-strip {
+  margin-bottom: var(--space-sm);
+}
+
+.daily-score-strip strong {
+  margin-right: 4px;
+  color: var(--accent-cyan);
+}
+
+.daily-horoscope-muted {
+  margin: 0;
+  color: var(--text-muted);
+}
+
 /* 筛选栏：弹性换行按钮组 */
 .filter-bar {
   display: flex;

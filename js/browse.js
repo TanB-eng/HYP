@@ -139,6 +139,7 @@ window.BrowseView = (function () {
           '<h1 class="view-title">黄道十二宫</h1>' +
           '<p class="view-subtitle">探索十二星座的奥秘</p>' +
         '</div>' +
+        '<div id="daily-horoscope-slot"></div>' +
         '<div class="browse-controls">' +
           '<input type="text" class="search-input" id="search-input" placeholder="搜索星座名称或关键词...">' +
           '<div class="filter-bar">' +
@@ -164,6 +165,10 @@ window.BrowseView = (function () {
 
     // 初次渲染全部星座卡片
     applyFilter();
+
+    if (window.DailyHoroscopeView && DailyHoroscopeView.render) {
+      DailyHoroscopeView.render('daily-horoscope-slot');
+    }
 
     // ---- 绑定搜索输入: 实时过滤 ----
     var searchInput = document.getElementById('search-input');
