@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYP星座研究 · 黄道十二宫</title>
+  <meta name="description" content="探索黄道十二宫的奥秘 - 星座浏览、星图展示、收藏笔记、星座计算器">
+
+  <!-- CSS 样式文件 -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/starmap.css">
+  <link rel="stylesheet" href="css/extras.css">
+  <link rel="stylesheet" href="css/palm.css">
+</head>
+<body>
+
+  <!-- 背景星空层 -->
+  <div class="bg-stars" aria-hidden="true"></div>
+
+  <!-- 导航栏 -->
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <a href="#/" class="nav-logo" aria-label="首页">
+        <span class="logo-symbol">✦</span>
+        <span class="logo-text">HYP星座研究</span>
+      </a>
+      <div class="nav-links">
+        <a href="#/" class="nav-link" data-route="/">
+          <span class="nav-icon">◇</span>
+          <span class="nav-label">星座浏览</span>
+        </a>
+        <a href="#/starmap" class="nav-link" data-route="/starmap">
+          <span class="nav-icon">◉</span>
+          <span class="nav-label">星图</span>
+        </a>
+        <a href="#/favorites" class="nav-link" data-route="/favorites">
+          <span class="nav-icon">★</span>
+          <span class="nav-label">收藏</span>
+          <span class="nav-badge" id="fav-badge" style="display:none;">0</span>
+        </a>
+        <a href="#/calculator" class="nav-link" data-route="/calculator">
+          <span class="nav-icon">⚙</span>
+          <span class="nav-label">计算器</span>
+        </a>
+        <a href="#/palm" class="nav-link" data-route="/palm">
+          <span class="nav-icon">✋</span>
+          <span class="nav-label">手相</span>
+        </a>
+      </div>
+      <div class="auth-slot" id="auth-slot"></div>
+    </div>
+  </nav>
+
+  <!-- 主视图容器 -->
+  <main id="app-view" class="app-view">
+    <!-- 加载中 -->
+    <div class="loading-state" id="loading-state">
+      <div class="loading-spinner"></div>
+      <p>加载星空中...</p>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <p>HYP星座研究 · 黄道十二宫 · 纯前端实现 · 数据存储于浏览器本地</p>
+  </footer>
+
+  <!-- JS 模块 (按依赖顺序加载) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/browse.js"></script>
+  <script src="js/starmap.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/calculator.js"></script>
+  <script src="js/palm-data.js"></script>
+  <script src="js/palm.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

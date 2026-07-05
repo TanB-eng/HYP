@@ -1,0 +1,1042 @@
+/* ==========================================================================
+   extras.css — 补充样式
+   覆盖 JavaScript 动态生成 HTML 中未在其它 CSS 文件中定义的类
+   依赖: variables.css, base.css, animations.css, layout.css, components.css,
+         starmap.css
+   ========================================================================== */
+
+/* ==========================================================================
+   背景星空层 — 固定全屏，不拦截指针事件
+   ========================================================================== */
+.bg-stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   导航栏补充 — 内部容器与 Logo 组件
+   ========================================================================== */
+
+/* 导航内部容器：撑满导航栏，自身弹性布局实现左右分布 */
+.nav-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.auth-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* Logo 符号：金色星形 */
+.logo-symbol {
+  font-size: 1.4rem;
+  color: var(--accent-gold);
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  transition: transform var(--transition);
+}
+
+.nav-logo:hover .logo-symbol {
+  transform: scale(1.15) rotate(72deg);
+}
+
+/* Logo 文字 */
+.logo-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-gold);
+}
+
+/* ==========================================================================
+   主内容区与加载状态
+   ========================================================================== */
+
+/* 主内容区类名补充（与 #app-view 选择器等效，确保 class 方式也可生效） */
+.app-view {
+  position: relative;
+  z-index: 1;
+}
+
+/* 加载状态容器：居中、淡入 */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  min-height: 50vh;
+  text-align: center;
+  color: var(--text-secondary);
+  animation: fade-in 0.5s ease-out;
+}
+
+.loading-state p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   页脚 — 固定底部，居中静音文字
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(5, 5, 17, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   视图通用 — 标题、副标题、视图容器
+   ========================================================================== */
+
+/* 视图标题：金色，大号 */
+.view-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+  margin-bottom: var(--space-xs);
+  letter-spacing: 1px;
+}
+
+/* 视图副标题：次要色 */
+.view-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+/* 各视图容器通用：弹性纵向布局 */
+.view-browse,
+.view-detail,
+.view-starmap,
+.view-favorites,
+.view-calculator {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 星图视图容器：不需要额外 padding（starmap-container 自身全屏） */
+.view-starmap {
+  gap: var(--space-md);
+}
+
+/* ==========================================================================
+   浏览视图 — 头部与控件区
+   ========================================================================== */
+
+/* 浏览页头部 */
+.browse-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+/* 浏览控件区：搜索框 + 筛选栏纵向排列 */
+.browse-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* 筛选栏：弹性换行按钮组 */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+/* ==========================================================================
+   星座卡片补充 — 顶部色带与卡片主体
+   ========================================================================== */
+
+/* 卡片顶部元素色带（JS 通过 inline style 设置背景色） */
+.sign-card .card-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  opacity: 0.9;
+  transition: opacity var(--transition);
+}
+
+.sign-card:hover .card-top-bar {
+  opacity: 1;
+}
+
+/* 卡片主体内边距 */
+.sign-card .card-body {
+  padding: var(--space-sm) 0;
+  position: relative;
+}
+
+/* ==========================================================================
+   详情视图 — 主栏、头部组件、徽章、笔记、特点、配对
+   ========================================================================== */
+
+/* 详情主栏 */
+.detail-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+/* 详情头部补充：元素色左边框 */
+.detail-header[data-element="火"] {
+  border-left: 4px solid var(--element-fire);
+}
+.detail-header[data-element="土"] {
+  border-left: 4px solid var(--element-earth);
+}
+.detail-header[data-element="风"] {
+  border-left: 4px solid var(--element-air);
+}
+.detail-header[data-element="水"] {
+  border-left: 4px solid var(--element-water);
+}
+
+/* 详情头部内部布局 */
+.detail-header {
+  flex-wrap: wrap;
+}
+
+/* 详情符号：大号星座符号 */
+.detail-symbol {
+  font-size: 4rem;
+  color: var(--star-white);
+  text-shadow: 0 0 25px rgba(160, 196, 255, 0.5);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* 详情头部标题（无类名的 h1） */
+.detail-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+/* 详情英文名 */
+.detail-name-en {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+  letter-spacing: 1px;
+}
+
+/* 详情日期范围 */
+.detail-date {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+/* 详情徽章组 */
+.detail-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* 通用信息徽章 — 元素 / 模态性 / 守护星 */
+.info-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--star-white);
+  background: rgba(100, 120, 200, 0.15);
+  border: 1px solid var(--border-subtle);
+  letter-spacing: 0.5px;
+}
+
+/* 信息徽章元素色编码 */
+.info-badge[data-element="火"] {
+  background: rgba(255, 107, 53, 0.2);
+  border-color: var(--element-fire);
+  color: var(--element-fire);
+}
+.info-badge[data-element="土"] {
+  background: rgba(139, 195, 74, 0.2);
+  border-color: var(--element-earth);
+  color: var(--element-earth);
+}
+.info-badge[data-element="风"] {
+  background: rgba(129, 212, 250, 0.2);
+  border-color: var(--element-air);
+  color: var(--element-air);
+}
+.info-badge[data-element="水"] {
+  background: rgba(77, 208, 225, 0.2);
+  border-color: var(--element-water);
+  color: var(--element-water);
+}
+
+/* 收藏按钮 — 醒目样式 */
+.favorite-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px !important;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05)) !important;
+  border: 2px solid var(--accent-gold) !important;
+  border-radius: 25px !important;
+  color: var(--accent-gold) !important;
+  font-size: 1.05rem !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.favorite-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 215, 0, 0.1)) !important;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  transform: scale(1.05);
+}
+
+/* 收藏按钮图标 */
+.favorite-btn .fav-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--accent-gold);
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+/* 已收藏状态：更强烈的金色 */
+.favorite-btn.active {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.15)) !important;
+  border-color: var(--accent-gold) !important;
+  color: var(--accent-gold) !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  animation: none;
+}
+
+.favorite-btn.active .fav-icon {
+  color: var(--accent-gold);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* 笔记区容器 */
+.notes-section h3 {
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  margin-bottom: var(--space-md);
+}
+
+/* 性格特点徽章列表 */
+.traits-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+/* 单个性格特点徽章 */
+.trait-badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(100, 120, 200, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all var(--transition);
+}
+
+.trait-badge:hover {
+  border-color: var(--star-blue);
+  color: var(--text-primary);
+  background: rgba(100, 120, 200, 0.15);
+}
+
+/* 详情区段正文内容 */
+.section-content {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   配对卡片 — 小型可点击星座卡片
+   ========================================================================== */
+
+/* 配对列表容器 */
+.compat-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* 单个配对卡片 */
+.compat-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: rgba(10, 10, 42, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.compat-card:hover {
+  border-color: var(--border-glow);
+  background: rgba(30, 35, 80, 0.8);
+  transform: translateX(4px);
+}
+
+/* 配对星座符号 */
+.compat-symbol {
+  font-size: 1.8rem;
+  color: var(--star-white);
+  text-shadow: 0 0 10px rgba(160, 196, 255, 0.3);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* 配对信息容器 */
+.compat-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* 配对星座名 */
+.compat-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 配对元素标签 */
+.compat-element {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   收藏视图 — 操作栏、收藏项、笔记编辑器
+   ========================================================================== */
+
+/* 收藏页头部 */
+.favorites-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+/* 收藏操作栏：导出 + 清空按钮 */
+.favorites-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* 清空按钮（危险操作样式） */
+.clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  background: transparent;
+  border: 1px solid rgba(255, 107, 53, 0.4);
+  border-radius: var(--radius-sm);
+  color: var(--element-fire);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.clear-btn:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: var(--element-fire);
+  color: #ff8b65;
+}
+
+/* 收藏项头部（符号 + 信息 + 操作按钮） */
+.fav-item-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+/* 收藏项星座符号 */
+.fav-symbol {
+  font-size: 2rem;
+  color: var(--star-white);
+  text-shadow: 0 0 12px rgba(160, 196, 255, 0.3);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* 收藏项信息容器 */
+.fav-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 收藏项中文名 */
+.fav-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+/* 收藏项英文名 */
+.fav-name-en {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  font-weight: 400;
+}
+
+/* 笔记指示圆点（已有笔记的星座） */
+.note-indicator {
+  font-size: 0.6rem;
+  vertical-align: middle;
+  margin-left: var(--space-xs);
+}
+
+/* 收藏项日期 */
+.fav-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+/* 收藏项操作按钮组 */
+.fav-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+/* 查看详情按钮（通用） */
+.view-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-sm);
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.view-detail-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+/* 取消收藏按钮 */
+.unfav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) var(--space-md);
+  background: transparent;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--element-fire);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.unfav-btn:hover {
+  background: rgba(255, 107, 53, 0.1);
+  border-color: var(--element-fire);
+}
+
+/* 笔记编辑器容器 */
+.note-editor {
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px dashed var(--border-subtle);
+}
+
+/* 笔记底部工具栏（字数 + 保存状态） */
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-xs);
+}
+
+/* 字数统计 */
+.char-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* 保存状态文字 */
+.save-status {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.save-status.visible {
+  opacity: 1;
+  color: var(--accent-cyan);
+}
+
+/* 空状态提示文字 */
+.empty-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+/* ==========================================================================
+   计算器视图 — 卡片、输入组、按钮、错误提示、结果
+   ========================================================================== */
+
+/* 计算器页头部 */
+.calculator-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+/* 计算器卡片容器 */
+.calculator-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+/* 日期输入组：月份 + 日期并排 */
+.date-input-group {
+  display: flex;
+  gap: var(--space-md);
+}
+
+/* 单个选择器组（label + select） */
+.select-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.select-group label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* 深色主题 select 下拉选项 */
+.date-select option {
+  background: var(--bg-mid);
+  color: var(--text-primary);
+}
+
+.date-select option:hover,
+.date-select option:checked {
+  background: var(--bg-glow);
+  color: var(--accent-gold);
+}
+
+/* "今天"按钮（次要按钮） */
+.today-btn {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  transition: all var(--transition);
+}
+
+.today-btn:hover {
+  border-color: var(--star-blue);
+  color: var(--star-blue);
+  background: rgba(100, 150, 255, 0.05);
+}
+
+/* 错误提示信息 */
+.error-msg {
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: var(--radius-sm);
+  color: var(--element-fire);
+  font-size: 0.85rem;
+  text-align: center;
+  animation: fade-in 0.2s ease-out;
+}
+
+/* 结果容器 */
+.result-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 结果卡片中文名（补充 .result-name 选择器） */
+.result-card .result-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: var(--space-xs);
+}
+
+/* 结果徽章组 */
+.result-badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+/* 结果描述文字（补充 .result-description 选择器） */
+.result-card .result-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+/* 结果卡片内查看详情按钮 */
+.result-card .view-detail-btn {
+  margin-top: var(--space-sm);
+}
+
+/* ==========================================================================
+   边界星座结果卡片
+   ========================================================================== */
+
+/* 边界结果卡片（在 .result-card 基础上追加） */
+.cusp-result {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+}
+
+/* 边界标签 */
+.cusp-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  text-align: center;
+  margin-bottom: var(--space-xs);
+  text-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+}
+
+/* 边界提示文字 */
+.cusp-hint {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+/* 边界星座并排容器 */
+.cusp-signs {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+/* 单个边界星座区块 */
+.cusp-sign {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-lg) var(--space-md);
+  background: rgba(10, 10, 42, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: all var(--transition);
+}
+
+.cusp-sign:hover {
+  border-color: var(--border-glow);
+  background: rgba(30, 35, 80, 0.8);
+}
+
+.cusp-sign.primary {
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.cusp-sign.secondary {
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+.cusp-sign .result-symbol {
+  font-size: 3rem;
+}
+
+.cusp-sign h3 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.cusp-sign p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.cusp-sign button {
+  margin-top: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-sm);
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  transition: all var(--transition);
+}
+
+.cusp-sign button:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--accent-gold);
+}
+
+/* 边界分隔符 */
+.cusp-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 0 var(--space-xs);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   星图视图补充 — 头部
+   ========================================================================== */
+.starmap-header {
+  text-align: center;
+  padding: var(--space-md) var(--space-lg) 0;
+}
+
+/* ==========================================================================
+   Toast 通知补充 — 淡出动画
+   ========================================================================== */
+.toast.fade-out {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+}
+
+/* ==========================================================================
+   响应式断点
+   ========================================================================== */
+
+/* ---- 平板及以下（< 1024px） ---- */
+@media (max-width: 1024px) {
+  /* 详情头部：符号与信息可能需要换行 */
+  .detail-header {
+    flex-wrap: wrap;
+  }
+
+  .detail-symbol {
+    font-size: 3rem;
+  }
+}
+
+/* ---- 移动端（< 768px） ---- */
+@media (max-width: 768px) {
+  .auth-nav-label {
+    display: none;
+  }
+
+  .auth-nav-btn {
+    padding: var(--space-sm);
+  }
+
+  .auth-nav-group {
+    gap: var(--space-xs);
+  }
+
+  .auth-modal-card {
+    padding: var(--space-lg);
+  }
+
+  /* 视图标题缩小 */
+  .view-title {
+    font-size: 1.4rem;
+  }
+
+  .view-subtitle {
+    font-size: 0.85rem;
+  }
+
+  /* 浏览控件：筛选栏满宽 */
+  .browse-controls {
+    gap: var(--space-sm);
+  }
+
+  .filter-bar {
+    gap: var(--space-xs);
+  }
+
+  .filter-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.8rem;
+  }
+
+  /* 详情头部：纵向排列 */
+  .detail-header {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .detail-symbol {
+    font-size: 3.5rem;
+  }
+
+  .detail-badges {
+    justify-content: center;
+  }
+
+  /* 收藏项头部：纵向堆叠 */
+  .fav-item-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .fav-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  /* 计算器日期输入组：纵向堆叠 */
+  .date-input-group {
+    flex-direction: column;
+  }
+
+  .calculator-card {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  /* 边界星座：纵向堆叠 */
+  .cusp-signs {
+    flex-direction: column;
+  }
+
+  .cusp-divider {
+    padding: var(--space-xs) 0;
+  }
+
+  /* 收藏操作栏：换行 */
+  .favorites-actions {
+    flex-wrap: wrap;
+  }
+
+  /* 页脚文字缩小 */
+  .site-footer p {
+    font-size: 0.75rem;
+  }
+}
+
+/* ---- 超小屏（< 360px） ---- */
+@media (max-width: 360px) {
+  .view-title {
+    font-size: 1.2rem;
+  }
+
+  .filter-btn {
+    padding: var(--space-xs);
+    font-size: 0.75rem;
+  }
+
+  .calculator-card {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .detail-symbol {
+    font-size: 2.5rem;
+  }
+
+  .fav-actions {
+    flex-direction: column;
+  }
+}
+
+/* ---- 大屏桌面（> 1440px） ---- */
+@media (min-width: 1440px) {
+  .view-title {
+    font-size: 2rem;
+  }
+}

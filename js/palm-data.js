@@ -1,0 +1,194 @@
+/**
+ * Palm Data Module (手相数据模块)
+ * 包含手相四大主线（感情线、智慧线、生命线、事业线）的完整数据
+ * 提供掌纹查询与解读接口，支持随机抽取解读内容
+ * 全局命名空间: PalmData
+ */
+window.PalmData = (function() {
+
+  'use strict';
+
+  // ============ 手相四大主线数据 ============
+  // 坐标说明: overlay.points 为归一化坐标 [x, y]，范围 0~1
+  // 以掌心图像为参考，手指朝上，左下角为原点 (0,0)，右上角为 (1,1)
+
+  var PALM_LINES = [
+    {
+      id: 'heart',
+      name_cn: '感情线',
+      name_en: 'Heart Line',
+      icon: '❤️',
+      color: '#ff4757',
+      area: '手掌上方，从食指下方延伸到小指下方',
+      domain: '情感与人际关系',
+      description: '感情线位于手掌上方，横贯手掌上部，反映一个人的情感世界、爱情观和人际关系模式。该线深长清晰者通常感情真挚，与他人的情感联结紧密。',
+      interpretations: [
+        { trait: '深长', meaning: '感情丰富深厚，对爱专一执着，一旦付出便全心全意，婚姻生活稳定幸福。' },
+        { trait: '较短', meaning: '情感表达含蓄内敛，不轻易敞开心扉，需要时间建立信任，异性缘偏弱。' },
+        { trait: '弯曲', meaning: '感情细腻温柔，善于表达情感，浪漫多情，异性缘佳，容易陷入热恋。' },
+        { trait: '笔直', meaning: '感情理性务实，不轻易被情感左右，择偶看重现实条件，冷静而克制。' },
+        { trait: '分叉', meaning: '情感经历复杂，可能面临两难选择，需在感情中学会取舍与决断。' },
+        { trait: '断裂', meaning: '情感中可能经历重大转折或波折，中年后感情渐趋稳定，需渡过难关。' },
+        { trait: '链条状', meaning: '情感丰富但多变，多愁善感，情绪起伏较大，易陷入多角关系纠葛。' },
+        { trait: '末端上扬', meaning: '事业心强，感情中积极主动，容易在关系中占主导，追求理想伴侣。' },
+        { trait: '触及食指', meaning: '理想主义者，对爱情期待完美，择偶标准高，宁缺毋滥，重精神契合。' }
+      ],
+      overlay: {
+        points: [[0.25, 0.25], [0.35, 0.22], [0.48, 0.21], [0.60, 0.20], [0.72, 0.19], [0.78, 0.22]],
+        labelPos: [0.50, 0.14]
+      }
+    },
+    {
+      id: 'head',
+      name_cn: '智慧线',
+      name_en: 'Head Line',
+      icon: '🧠',
+      color: '#3742fa',
+      area: '手掌中部，位于感情线与生命线之间，横贯掌心',
+      domain: '思维方式与决策能力',
+      description: '智慧线位于手掌中部，横贯掌心，反映一个人的思维方式、智力水平和决策风格。该线清晰深长者通常思维敏捷，善于分析与规划，逻辑能力出众。',
+      interpretations: [
+        { trait: '深长清晰', meaning: '思维缜密，逻辑性强，善于分析和规划，学习能力强，行事条理分明。' },
+        { trait: '较短', meaning: '行动力强于思考力，直觉敏锐，做事果断但不善于深思熟虑，易冲动行事。' },
+        { trait: '平直', meaning: '思维务实理性，注重实际效果，脚踏实地，缺乏想象力但执行力极强。' },
+        { trait: '下弯', meaning: '想象力丰富，富有创造力，适合艺术和文学领域，思维灵活跳跃，灵感多。' },
+        { trait: '斜长', meaning: '综合思维能力强，既有逻辑又有创意，思维跨度大，善于跨领域解决问题。' },
+        { trait: '分叉', meaning: '兼具多种思维方式，善于多角度思考，适合跨界发展，才华多元。' },
+        { trait: '断裂', meaning: '思维方式可能经历重大转变，人生观和价值观有阶段性变化，需自我调适。' },
+        { trait: '起于生命线内', meaning: '谨慎内敛，做事三思而后行，有时过于顾虑而错失良机，稳重可靠。' },
+        { trait: '与生命线相连', meaning: '依赖性较强，成长早期受家庭影响深远，性格谨慎保守，需培养独立性。' }
+      ],
+      overlay: {
+        points: [[0.30, 0.40], [0.40, 0.39], [0.50, 0.38], [0.60, 0.38], [0.70, 0.39], [0.75, 0.41]],
+        labelPos: [0.50, 0.32]
+      }
+    },
+    {
+      id: 'life',
+      name_cn: '生命线',
+      name_en: 'Life Line',
+      icon: '🌱',
+      color: '#2ed573',
+      area: '手掌左侧，从食指与拇指之间起，弧形绕过拇指根部',
+      domain: '生命力与健康状态',
+      description: '生命线从食指与拇指之间起，弧形绕过拇指根部，反映一个人的生命力、健康状况和精力水平。该线深长弧度大者通常体魄强健，精力充沛。',
+      interpretations: [
+        { trait: '深长清晰', meaning: '生命力旺盛，体质强健，精力充沛，抵抗力强，整体健康运势良好。' },
+        { trait: '较短', meaning: '精力有限，需注意劳逸结合，体质偏弱但后天调养可显著改善，不必忧虑。' },
+        { trait: '弧度大', meaning: '活力充沛，热爱运动和冒险，性格外向开朗，体魄强健，行动力旺盛。' },
+        { trait: '弧度小', meaning: '精力相对有限，性格内敛，活动范围较小，需注重日常保健与规律作息。' },
+        { trait: '分叉', meaning: '人生可能经历重大转变或异地迁移，生活轨迹发生改变，带来新机遇。' },
+        { trait: '断裂', meaning: '健康或生活可能经历重大波折，需留意身体信号，调整作息，定期体检。' },
+        { trait: '链条状', meaning: '体质多波动，精力不稳定，幼年体弱多病，需长期注重养生与调理。' },
+        { trait: '紧贴拇指', meaning: '精力相对有限，做事容易疲劳，需注意休息与营养，避免过度消耗。' },
+        { trait: '延伸至腕', meaning: '生命力极强，精力持久充沛，晚年依然康健活跃，长寿之相，福泽绵长。' }
+      ],
+      overlay: {
+        points: [[0.35, 0.30], [0.32, 0.40], [0.30, 0.50], [0.32, 0.60], [0.36, 0.70], [0.42, 0.75], [0.48, 0.74]],
+        labelPos: [0.20, 0.55]
+      }
+    },
+    {
+      id: 'fate',
+      name_cn: '事业线',
+      name_en: 'Fate Line',
+      icon: '⭐',
+      color: '#ffa502',
+      area: '手掌中央，从手腕处纵向延伸至中指下方',
+      domain: '事业运势与人生轨迹',
+      description: '事业线从手腕处纵向延伸至中指下方，反映一个人的事业运势、人生方向和命运轨迹。该线清晰深长者通常事业心强，目标明确，职业发展顺遂。',
+      interpretations: [
+        { trait: '深长清晰', meaning: '事业心强，目标明确，职业发展顺利，贵人运佳，中年易获突破与成就。' },
+        { trait: '较短或断续', meaning: '事业多变，经历多次转行或转折，需坚持初心，积累经验终有所成。' },
+        { trait: '起于手腕', meaning: '少年立志，白手起家，早年即有明确方向，稳扎稳打，大器可成。' },
+        { trait: '起于月丘', meaning: '受人赏识提拔，贵人相助，事业与人际密切相关，善于借力发展。' },
+        { trait: '偏斜', meaning: '事业发展灵活多变，善于把握机遇，职业路径不拘一格，适应力强。' },
+        { trait: '中断', meaning: '中年事业可能经历转折或瓶颈，突破困境后迎来全新发展阶段与机遇。' },
+        { trait: '末端分叉', meaning: '事业多元发展，中年后可能兼顾多个领域或副业，才华横溢多线并进。' },
+        { trait: '双线并行', meaning: '事业与兴趣并行，或同时经营多个方向，精力旺盛，多重身份协调。' },
+        { trait: '不明显', meaning: '事业方向需自行探索，随缘发展，适合灵活自由的职业路径，潜力待发掘。' }
+      ],
+      overlay: {
+        points: [[0.50, 0.80], [0.50, 0.70], [0.50, 0.60], [0.50, 0.50], [0.50, 0.42], [0.50, 0.36]],
+        labelPos: [0.62, 0.58]
+      }
+    }
+  ];
+
+  // ============ 内部辅助函数 ============
+
+  /**
+   * 根据ID查找掌纹线
+   * @param {string} id - 线路ID: 'heart' | 'head' | 'life' | 'fate'
+   * @returns {Object|null} 线路数据对象
+   */
+  function _findLine(id) {
+    for (var i = 0; i < PALM_LINES.length; i++) {
+      if (PALM_LINES[i].id === id) {
+        return PALM_LINES[i];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * 获取随机整数 [0, max)
+   * @param {number} max - 上界（不含）
+   * @returns {number} 随机整数
+   */
+  function _randomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  // ============ 对外接口 ============
+
+  return {
+
+    /**
+     * 缓存的数据
+     */
+    _data: PALM_LINES,
+
+    /**
+     * 根据ID获取单条掌纹线数据
+     * @param {string} id - 线路ID: 'heart' | 'head' | 'life' | 'fate'
+     * @returns {Object|null} 线路数据对象，未找到返回 null
+     */
+    getLine: function(id) {
+      return _findLine(id);
+    },
+
+    /**
+     * 获取全部四条主线数据
+     * @returns {Array} 四条主线的数据数组
+     */
+    getAllLines: function() {
+      return PALM_LINES;
+    },
+
+    /**
+     * 获取某条线的随机解读
+     * @param {string} lineId - 线路ID: 'heart' | 'head' | 'life' | 'fate'
+     * @returns {Object|null} 解读对象 { trait, meaning }，线路不存在返回 null
+     */
+    getInterpretation: function(lineId) {
+      var line = _findLine(lineId);
+      if (!line || !line.interpretations || line.interpretations.length === 0) {
+        return null;
+      }
+      var idx = _randomInt(line.interpretations.length);
+      return line.interpretations[idx];
+    },
+
+    /**
+     * getRandomInterpretation - getInterpretation 的别名
+     * 获取某条线的随机解读
+     * @param {string} lineId - 线路ID
+     * @returns {Object|null} 解读对象 { trait, meaning }
+     */
+    getRandomInterpretation: function(lineId) {
+      return this.getInterpretation(lineId);
+    }
+  };
+
+})();

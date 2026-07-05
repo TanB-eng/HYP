@@ -1,0 +1,254 @@
+/* ==========================================================================
+   layout.css — 响应式布局
+   导航栏 / 主内容区 / 星座网格 / 详情页双栏 / 收藏列表 / 计算器 / 星图
+   依赖: variables.css, base.css
+   ========================================================================== */
+
+/* ==========================================================================
+   主导航栏 — 固定顶部栏
+   ========================================================================== */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  background: rgba(5, 5, 17, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+}
+
+/* 导航 Logo */
+.main-nav .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  white-space: nowrap;
+}
+
+/* 导航链接容器 */
+.main-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* 导航链接 */
+.main-nav .nav-links a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  transition: color var(--transition), background var(--transition);
+  white-space: nowrap;
+}
+
+.main-nav .nav-links a:hover {
+  color: var(--text-primary);
+  background: rgba(100, 120, 200, 0.1);
+}
+
+/* 激活状态链接 */
+.main-nav .nav-links a.active {
+  color: var(--accent-gold);
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.main-nav .nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: var(--accent-gold);
+  border-radius: 1px;
+}
+
+/* 导航图标 */
+.main-nav .nav-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* 导航文字标签（桌面端可见，移动端隐藏） */
+.main-nav .nav-label {
+  display: inline;
+}
+
+/* ==========================================================================
+   主内容区
+   ========================================================================== */
+#app-view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + var(--space-xl)) var(--space-lg) var(--space-xl);
+  min-height: calc(100vh - var(--nav-height));
+}
+
+/* ==========================================================================
+   星座浏览网格
+   ========================================================================== */
+.sign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+/* ==========================================================================
+   详情视图 — 双栏布局（桌面）/ 单栏堆叠（移动）
+   ========================================================================== */
+.detail-view {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-lg);
+  align-items: start;
+  animation: fade-in 0.5s ease-out;
+}
+
+/* 侧边栏 */
+.detail-view .detail-sidebar {
+  position: sticky;
+  top: calc(var(--nav-height) + var(--space-md));
+}
+
+/* ==========================================================================
+   收藏列表 — 单栏，最大宽度 800px
+   ========================================================================== */
+.favorites-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ==========================================================================
+   计算器视图 — 居中，最大宽度 500px
+   ========================================================================== */
+.calculator-view {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-xl) var(--space-lg);
+}
+
+/* ==========================================================================
+   星图容器 — 全视口高度（减去导航栏）
+   ========================================================================== */
+.starmap-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+  margin-top: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   响应式断点
+   ========================================================================== */
+
+/* ---- 平板及以下（< 1024px）：详情页单栏 ---- */
+@media (max-width: 1024px) {
+  .detail-view {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-view .detail-sidebar {
+    position: static;
+  }
+
+  .sign-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-md);
+  }
+}
+
+/* ---- 移动端（< 768px）：导航仅图标，网格双列 ---- */
+@media (max-width: 768px) {
+  .main-nav {
+    padding: 0 var(--space-md);
+  }
+
+  .main-nav .nav-label {
+    display: none;
+  }
+
+  .main-nav .nav-links {
+    gap: var(--space-xs);
+  }
+
+  .main-nav .nav-links a {
+    padding: var(--space-sm);
+  }
+
+  .main-nav .nav-logo {
+    font-size: 1.1rem;
+  }
+
+  #app-view {
+    padding: calc(var(--nav-height) + var(--space-lg)) var(--space-md) var(--space-lg);
+  }
+
+  .sign-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-sm);
+  }
+
+  .starmap-container {
+    height: calc(100vh - var(--nav-height));
+  padding: var(--space-md);
+  }
+
+  .favorites-list {
+    padding: 0 var(--space-sm);
+  }
+}
+
+/* ---- 超小屏（< 320px→实际 320px 以下）：单列网格 ---- */
+@media (max-width: 360px) {
+  .sign-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-nav .nav-logo {
+    font-size: 1rem;
+  }
+
+  .calculator-view {
+    padding: var(--space-lg) var(--space-sm);
+  }
+}
+
+/* ---- 大屏桌面（> 1440px）：网格更宽 ---- */
+@media (min-width: 1440px) {
+  #app-view {
+    max-width: 1400px;
+  }
+
+  .sign-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}

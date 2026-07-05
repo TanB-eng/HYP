@@ -1,0 +1,59 @@
+/* ==========================================================================
+   variables.css — 深空星空主题 CSS 变量定义
+   全站色彩、间距、圆角、字体、阴影、过渡等设计令牌集中管理
+   ========================================================================== */
+
+:root {
+  /* ---- 深空背景色阶（从最暗到最亮） ---- */
+  --bg-deep: #050511;
+  --bg-mid: #0a0a2a;
+  --bg-glow: #1a1a4a;
+  --bg-card: rgba(20, 25, 60, 0.85);
+  --bg-card-hover: rgba(30, 35, 80, 0.95);
+
+  /* ---- 星光与高亮色 ---- */
+  --star-white: #ffffff;
+  --star-blue: #a0c4ff;
+  --accent-gold: #ffd700;
+  --accent-cyan: #00e5ff;
+
+  /* ---- 文字色阶 ---- */
+  --text-primary: #e8e8ff;
+  --text-secondary: #8888bb;
+  --text-muted: #555577;
+
+  /* ---- 四象元素色（火 / 土 / 风 / 水） ---- */
+  --element-fire: #ff6b35;
+  --element-earth: #8bc34a;
+  --element-air: #81d4fa;
+  --element-water: #4dd0e1;
+
+  /* ---- 边框色 ---- */
+  --border-subtle: rgba(100, 120, 200, 0.2);
+  --border-glow: rgba(255, 215, 0, 0.3);
+
+  /* ---- 圆角 ---- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* ---- 间距系统 ---- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* ---- 字体 ---- */
+  --font-sans: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', sans-serif;
+
+  /* ---- 过渡 ---- */
+  --transition: 0.3s ease;
+
+  /* ---- 阴影 ---- */
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(100, 150, 255, 0.15);
+
+  /* ---- 导航栏高度（布局参考） ---- */
+  --nav-height: 60px;
+}

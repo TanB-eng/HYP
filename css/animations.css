@@ -1,0 +1,133 @@
+/* ==========================================================================
+   animations.css — 深空主题关键帧动画
+   星光闪烁、淡入过渡、卡片悬浮、星系旋转、脉冲发光、滑入、加载旋转
+   ========================================================================== */
+
+/* ---- 星光闪烁：透明度循环变化，模拟星星忽明忽暗 ---- */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---- 淡入上移：视图切换时的入场动画 ---- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- 卡片悬浮：轻微上下浮动，营造悬浮感 ---- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* ---- 星系缓速旋转：120 秒一圈，用于背景星系漂移 ---- */
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- 脉冲发光：金色光晕呼吸效果 ---- */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2),
+                0 0 20px rgba(255, 215, 0, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4),
+                0 0 40px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* ---- 向上滑入：模态框 / 提示框入场 ---- */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- 旋转：加载动画 360 度旋转 ---- */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   动画工具类
+   ========================================================================== */
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 120s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ---- 动画延迟工具（用于星空粒子错开闪烁） ---- */
+.delay-1s { animation-delay: 1s; }
+.delay-2s { animation-delay: 2s; }
+.delay-3s { animation-delay: 3s; }
+.delay-4s { animation-delay: 4s; }
+.delay-5s { animation-delay: 5s; }
+
+/* ---- 尊重用户减少动画偏好 ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
