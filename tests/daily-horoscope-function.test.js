@@ -56,6 +56,16 @@ test('daily horoscope schedule sends the private cron secret header', () => {
   assert.doesNotMatch(source, /9bb847fd6f87410ba7c284f2e3ece249752e769bcaa8144f5da5e4c1ba8be81a/);
 });
 
+test('sync daily horoscopes keeps only the latest seven horoscope dates', () => {
+  const source = fs.readFileSync(functionPath, 'utf8');
+
+  assert.match(source, /const RETENTION_DAYS = 7/);
+  assert.match(source, /function getRetentionCutoff/);
+  assert.match(source, /rows\[0\]\?\.horoscope_date/);
+  assert.match(source, /\.delete\(\)/);
+  assert.match(source, /\.lt\("horoscope_date", retentionCutoff\)/);
+});
+
 test('daily horoscope translation SQL adds Chinese fallback columns', () => {
   const sqlPath = path.join(root, 'supabase', 'sql', 'daily-horoscope-translation-fields.sql');
   const source = fs.readFileSync(sqlPath, 'utf8');

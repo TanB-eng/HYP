@@ -16,7 +16,7 @@ end $$;
 
 select cron.schedule(
   'sync-daily-horoscopes-every-day',
-  '10 16 * * *',
+  '0 22 * * *',
   $$
   select net.http_post(
     url := 'https://rochielgxaypmyjboirs.supabase.co/functions/v1/sync-daily-horoscopes',

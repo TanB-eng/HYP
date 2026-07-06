@@ -41,6 +41,12 @@ window.App = (function() {
       CalculatorView.render();
     });
 
+    // 星座配对
+    Router.register('#/compatibility', function() {
+      switchView('compatibility');
+      CompatibilityView.render();
+    });
+
     // 手相
     Router.register('#/palm', function() {
       switchView('palm');
@@ -95,6 +101,8 @@ window.App = (function() {
       } else if (route === '/favorites' && hash.indexOf('#/favorites') === 0) {
         isActive = true;
       } else if (route === '/calculator' && hash.indexOf('#/calculator') === 0) {
+        isActive = true;
+      } else if (route === '/compatibility' && hash.indexOf('#/compatibility') === 0) {
         isActive = true;
       } else if (route === '/palm' && hash.indexOf('#/palm') === 0) {
         isActive = true;

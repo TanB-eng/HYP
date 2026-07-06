@@ -14,6 +14,7 @@ const SIGNS = [
   "aquarius",
   "pisces",
 ];
+const RETENTION_DAYS = 7;
 
 type FreeAstroPayload = {
   data?: Record<string, unknown>;
@@ -76,6 +77,16 @@ function toDateValue(value: unknown): string {
   const explicitDate = asString(value);
   if (explicitDate) return explicitDate.slice(0, 10);
   return new Date().toISOString().slice(0, 10);
+}
+
+function getRetentionCutoff(referenceDate: string | undefined): string | null {
+  if (!referenceDate) return null;
+  const [year, month, day] = referenceDate.split("-").map(Number);
+  if (!year || !month || !day) return null;
+
+  const cutoff = new Date(Date.UTC(year, month - 1, day));
+  cutoff.setUTCDate(cutoff.getUTCDate() - (RETENTION_DAYS - 1));
+  return cutoff.toISOString().slice(0, 10);
 }
 
 function buildContentText(data: Record<string, unknown>): string {
@@ -396,6 +407,18 @@ Deno.serve(async (request) => {
 
   if (error) {
     return Response.json({ error: error.message }, { status: 500 });
+  }
+
+  const retentionCutoff = getRetentionCutoff(rows[0]?.horoscope_date);
+  if (retentionCutoff) {
+    const { error: cleanupError } = await supabase
+      .from("daily_horoscopes")
+      .delete()
+      .lt("horoscope_date", retentionCutoff);
+
+    if (cleanupError) {
+      return Response.json({ error: cleanupError.message }, { status: 500 });
+    }
   }
 
   return Response.json({
