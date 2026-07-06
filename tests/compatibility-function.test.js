@@ -12,12 +12,15 @@ test('compatibility AI function protects Gemini with login and daily usage limit
 
   assert.match(source, /const DAILY_LIMIT = 3/);
   assert.match(source, /const CHAT_LIMIT = 3000/);
+  assert.match(source, /const USAGE_RETENTION_DAYS = 30/);
   assert.match(source, /Deno\.env\.get\("GEMINI_API_KEY"\)/);
   assert.match(source, /Deno\.env\.get\("SUPABASE_ANON_KEY"\)/);
   assert.match(source, /Deno\.env\.get\("SUPABASE_SERVICE_ROLE_KEY"\)/);
   assert.match(source, /auth\.getUser\(\)/);
   assert.match(source, /compatibility_ai_usage/);
   assert.match(source, /usedCount >= DAILY_LIMIT/);
+  assert.match(source, /cleanupOldUsageRows/);
+  assert.match(source, /\.lt\("usage_date", retentionCutoff\)/);
   assert.match(source, /gemini-2\.5-flash/);
   assert.match(source, /generateContent/);
   assert.match(source, /Only successful Gemini responses consume usage/);

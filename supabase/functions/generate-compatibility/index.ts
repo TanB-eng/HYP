@@ -2,6 +2,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const DAILY_LIMIT = 3;
 const CHAT_LIMIT = 3000;
+const USAGE_RETENTION_DAYS = 30;
 const MODEL = "gemini-2.5-flash";
 const RELATIONSHIP_TYPES = ["romance", "flirt", "friendship", "work", "family"];
 const SIGNS = [
@@ -57,6 +58,23 @@ function getShanghaiDate(now = new Date()): string {
   }).formatToParts(now);
   const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
   return `${values.year}-${values.month}-${values.day}`;
+}
+
+function getUsageRetentionCutoff(referenceDate: string): string {
+  const [year, month, day] = referenceDate.split("-").map(Number);
+  const cutoff = new Date(Date.UTC(year, month - 1, day));
+  cutoff.setUTCDate(cutoff.getUTCDate() - (USAGE_RETENTION_DAYS - 1));
+  return cutoff.toISOString().slice(0, 10);
+}
+
+async function cleanupOldUsageRows(
+  serviceClient: ReturnType<typeof createClient>,
+  retentionCutoff: string,
+) {
+  return await serviceClient
+    .from("compatibility_ai_usage")
+    .delete()
+    .lt("usage_date", retentionCutoff);
 }
 
 function buildPrompt(payload: Required<Pick<CompatibilityRequest, "signA" | "signB" | "relationshipType">> & {
@@ -240,6 +258,12 @@ Deno.serve(async (request) => {
 
   if (upsertError) {
     return jsonResponse({ error: upsertError.message }, 500);
+  }
+
+  const retentionCutoff = getUsageRetentionCutoff(usageDate);
+  const { error: cleanupError } = await cleanupOldUsageRows(serviceClient, retentionCutoff);
+  if (cleanupError) {
+    return jsonResponse({ error: cleanupError.message }, 500);
   }
 
   return jsonResponse({
